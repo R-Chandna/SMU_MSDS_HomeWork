@@ -1,0 +1,187 @@
+---
+title: "RChandna_Week4_HW"
+author: "Rajat Chandna"
+date: "May 29, 2018"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Questions
+
+\    
+
+#### 1. FiveThirtyEight Data (30 points): Navigate on GitHub to https://github.com/rudeboybert/fivethirtyeight and read README.md. Seriously, it will include everything you need.
+
+\    
+
+##### a. Install the fivethirtyeight package.
+
+\     
+
+```{r sessionInfo}
+options(repos=c(CRAN="fivethirtyeight"))
+library(fivethirtyeight)
+if(!require(fivethirtyeight))
+  stop("Missing Package fivethirtyeight")
+sessionInfo()
+```
+
+\    
+
+##### b.	In the listing of Data sets in package 'fivethirtyeight,' assign the eighteenth data set to an object 'df.'
+
+\     
+
+Note: Since the Eighteenth dataset is not what is desired, I have modified the code to first find the index of desired "college_all_ages" dataset and then load the dataset using Index at which it is found. This has been done to come as close to initial intent of the question, although the simplest way would be to load dataset using its name directly.
+\   
+
+```{r DataSet_Read_Based_On_Index}
+# Print the list of datasets in the package
+data(package = "fivethirtyeight")
+# Find the Index for  "college_all_ages" data set.
+df_Index <- which(as.list(data(package = "fivethirtyeight"))$results[,"Item"] == "college_all_ages")
+# Now Assigning the  dataset at desired index( eighteenth or whatever index) from the list to df object.
+df <- get(as.list(data(package = "fivethirtyeight"))$results[df_Index, "Item"], asNamespace("fivethirtyeight"))
+str(df)
+dim(df)
+```
+
+\    
+
+##### c.	Use a more detailed list of the data sets to write out the URL in a comment to the related news story.
+
+\     
+
+```{r Find_URL_For_Story}
+vignette("fivethirtyeight", package = "fivethirtyeight")
+# As found from detailed listing, URL for the Story for data set college_all_ages is :  
+# http://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/
+```
+
+\    
+
+[Click Here To Follow the Link to Story for college_all_ages DataSet](http://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/)
+
+\    
+
+##### d.	Using R command(s), give the dimensions and column names of this data frame.
+
+\     
+
+```{r Investigate_the_DataSet}
+# Printing the Dimensions of the Dataset.
+dim(df)
+# Printing Column Names for the DataSet.
+colnames(df)
+```
+
+\     
+
+#### 2.	Data Summary (30 points): Use your newly assigned data frame for Question 2.  
+
+\    
+
+##### a.	Write an R command that gives you the column names of the data frame.  Right after that, write one that counts the number of columns but not rows.  Hint: The number should match one of your numbers in Question 1d for dimensions.
+
+\    
+
+```{r Data_Summary}
+# Printing Column Names for the DataSet.
+colnames(df)
+# Printing Number of Columns
+length(colnames(df))
+```
+
+\    
+
+##### b.	Generate a count of each unique major_category in the data frame.  I recommend using libraries to help.  I have demonstrated one briefly in live-session.  To be clear, this should look like a matrix or data frame containing the major_category and the frequency it occurs in the dataset.  Assign it to major_count.
+
+\    
+```{r Get_Freq_Table}
+major_count <- table(df$major_category)
+as.data.frame(major_count)
+```
+
+\    
+
+##### c.	To make things easier to read, put par(las=2) before your plot to make the text perpendicular to the axis.  Make a barplot of major_count.  Make sure to label the title with something informative (check the vignette if you need), label the x and y axis, and make it any color other than grey.  Assign the major_category labels to their respective bar.  Flip the barplot horizontally so that bars extend to the right, not upward.  All of these options can be done in a single pass of barplot(). Note: It's okay if it's wider than the preview pane.
+
+\     
+
+```{r plotting_The_Grads_Majors}
+# Included par(las=2) in barplot option
+op <- par(mar=c(15,4,1.5,2))
+barplot(major_count, xlab = "", ylab = "Number of Graduates", main = "Number of Graduates With Degrees In Different Majors", horiz=F, las=2, col = 20, density = c(10,10), angle = c(-45, -45))
+mtext("Majors Taken", side=1, line=12)
+rm(op)
+```
+
+\     
+
+**Flipping The Plot Horizontally**
+
+\    
+
+```{r plotting_The_Grads_Majors_Horiz_Plot}
+op <- par(mar=c(4,15,2,0.1))
+barplot(major_count, xlab = "Number of Graduates", ylab = "", horiz = T, las=1, col = 20, density = c(10,10), angle = c(-45, -45))
+title(main = "No. of Grads With Degrees In Diff. Majors")
+mtext("Majors Taken", side=2, line = 14, at = 8)
+rm(op)
+```
+
+\     
+
+
+##### d.	Write the fivethirtyeight data to a csv file.  Make sure that it does not have row labels.
+
+\    
+```{r Writting_Data_To_Csv}
+getwd()
+write.csv2(df, file = "Data/fivethirtyeight_College_DataSet.csv", row.names = F)
+```
+\     
+
+
+
+#### 3.		Codebook (30 points):  
+
+\     
+
+##### a.	Start a new repository on GitHub for your SMU MSDS homework.  On your local device, make sure there is a directory for Homework at the minimum; you are welcome to add whatever you would like to this repo in addition to your requirements here.
+\  
+
+Done. Link to Repo is placed at the end of this complete question.
+
+\  
+
+##### b.	Create a README.md file which explains the purpose of the repository, the topics included, the sources for the material you post, and contact information in case of questions. Remember, the one in the root directory should be general.  You are welcome to make short READMEs for each assignment individually in other folders.
+
+\         
+Done. Link to Repo is placed at the end of this complete question.
+
+\     
+
+##### c.	In one (or more) of the nested directories, post your RMarkdown script, HTML file, and data from 'fivethirtyeight.'  Make sure that in your README or elsewhere that you credit fivethirtyeight in some way.
+
+\      
+
+Done. Link to Repo is placed at the end of this complete question.
+
+\     
+
+##### d.	In your RMarkdown script, please provide the link to this GitHub so the grader can see it.
+
+\        
+
+[Click Here To Follow the Link to My SMU HomeWork Repo](https://github.com/R-Chandna/SMU_MSDS_HomeWork)
+
+\    
+
+
