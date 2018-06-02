@@ -268,14 +268,6 @@ rm(op)
 \    
 
 ```r
-getwd()
-```
-
-```
-## [1] "C:/Users/chand/Desktop/MSDS/GitRepos/SMU_MSDS_HomeWork/MSDS 6306_Doing_Data_Science/Week4/Analysis"
-```
-
-```r
 write.csv2(df, file = "Data/fivethirtyeight_College_DataSet.csv", row.names = F)
 ```
 \     

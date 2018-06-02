@@ -143,7 +143,6 @@ rm(op)
 
 \    
 ```{r Writting_Data_To_Csv}
-getwd()
 write.csv2(df, file = "Data/fivethirtyeight_College_DataSet.csv", row.names = F)
 ```
 \     
