@@ -391,7 +391,10 @@ write.csv2(head(final_fem,10)[,c("Name", "Total")], file = "Data/Top10GirlsNames
 
 \  
 
-[Click Here To Follow the Link to My SMU HomeWork Repo](https://github.com/R-Chandna/SMU_MSDS_HomeWork/Week5)
+Raw Link
+https://github.com/R-Chandna/SMU_MSDS_HomeWork/tree/master/MSDS%206306_Doing_Data_Science/Week5
+
+[Click Here To Follow the Link to My SMU HomeWork Repo Week 5 HW Folder](https://github.com/R-Chandna/SMU_MSDS_HomeWork/tree/master/MSDS%206306_Doing_Data_Science/Week5)
 
 \    
 
