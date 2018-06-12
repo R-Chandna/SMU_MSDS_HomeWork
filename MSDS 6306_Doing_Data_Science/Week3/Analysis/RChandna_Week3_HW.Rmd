@@ -1,0 +1,193 @@
+---
+title: "RChandna_Week3_HW"
+author: "Rajat Chandna"
+date: "May 23, 2018"
+output: 
+  html_document:
+        keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r sessionInfo}
+sessionInfo()
+```
+
+# Questions  
+
+\    
+
+#### 1 GitHub Cloning (20 points): Using Git, clone the following GitHub repository to your local machine: https://github.com/caesar0301/awesome-public-datasets.  In RMarkdown, please show the code (commented out, as it's not R syntax) that you used to create a new directory, navigate to the appropriate directory, and clone the repository to it.  Like actual Git, one command per line, please.
+
+\     
+
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~
+$ pwd
+/c/Users/chand
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~
+$ cd Desktop/MSDS/GitRepos/
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~/Desktop/MSDS/GitRepos
+**$ mkdir AwsomePublicDatasets**
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~/Desktop/MSDS/GitRepos
+**$ cd  AwsomePublicDatasets/**
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~/Desktop/MSDS/GitRepos/AwsomePublicDatasets
+**$ git clone https://github.com/caesar0301/awesome-public-datasets .**    
+
+Cloning into '.'...
+remote: Counting objects: 1475, done.
+remote: Compressing objects: 100% (18/18), done.
+remote: Total 1475 (delta 26), reused 40 (delta 24), pack-reused 1433
+Receiving objects: 100% (1475/1475), 556.16 KiB | 2.05 MiB/s, done.
+Resolving deltas: 100% (859/859), done.
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~/Desktop/MSDS/GitRepos/AwsomePublicDatasets (master)
+$ ls
+Datasets/  LICENSE  README.rst
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~/Desktop/MSDS/GitRepos/AwsomePublicDatasets (master)
+$ cd Datasets/
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~/Desktop/MSDS/GitRepos/AwsomePublicDatasets/Datasets (master)
+$ pwd
+/c/Users/chand/Desktop/MSDS/GitRepos/AwsomePublicDatasets/Datasets
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~/Desktop/MSDS/GitRepos/AwsomePublicDatasets/Datasets (master)
+$ ls
+titanic.csv.zip
+
+chand@LAPTOP-TU9B6NOH MINGW64 ~/Desktop/MSDS/GitRepos/AwsomePublicDatasets/Datasets (master)
+
+
+\    
+
+
+#### 2.	Data Summary (20 points): From this aforementioned cloned repo, please extract titanic.csv.zip.  To be clear, this does not have to be done in Git or command line.  
+
+\    
+
+##### a.	In R, please read in titanic.csv via either read.table() or read.csv(), assigning it to df.  This dataset follows the passengers aboard the Titanic, including their fees paid, rooms rented, and survivorship status.
+
+\    
+
+```{r titanic_Data_Read}
+titanicDf <- read.csv("titanic/titanic.csv", header = TRUE)
+str(titanicDf)
+```
+
+\    
+
+##### b.	Output the respective count of females and males aboard the Titanic. Plot the frequency of females and males.  Be sure to give an accurate title and label the axes.
+\    
+```{r titanic_Data_Analysis_FreqPlot}
+table(titanicDf$Sex)
+# Plotting the frequency table
+barplot(table(titanicDf$Sex), xlab = "", ylab = "Frequency", main = "Frequency of Males and Females OnBoard The Titanic", ylim = c(0,length(titanicDf$Sex)), horiz=F, las=2, col = 20, density = c(10,10), angle = c(45, 45))
+mtext("Sex", side=1, line=3)
+```
+
+Plotting Relative Frequency of Males and Females.
+
+```{r titanic_Data_Analysis_RelativeFreqPlot}
+# Plotting the relative frequency table showing % of Males and Females onboard the titanic.
+barplot((table(titanicDf$Sex)/length(titanicDf$Sex)) * 100, xlab = "", ylab = "Relative Frequency( in %)", main = "Relative Frequency of Males and Females OnBoard The Titanic", ylim = c(0,100), horiz=F, las=2, col = 20, density = c(10,10), angle = c(-45, -45))
+mtext("Sex", side=1, line=3)
+```
+
+\     
+
+##### c.	Please use one apply function (to review: swirl() modules 11, 12) to output the means of Age, Fare, and Survival.  Make sure the output is a real number for all three means.
+
+\     
+
+```{r titanic_Data_Analysis_1}
+# Initialize an empty Vector
+x <- numeric(3)
+# if any columns contain Missing or NA entries then donot include these entries in any statistic calculation.
+if((any(is.na(titanicDf$Age))) | any(is.na(titanicDf$Fare)) | any(is.na(titanicDf$Survived))){
+  x <- vapply(titanicDf[, c("Age", "Fare", "Survived")], mean, na.rm = TRUE, numeric(1))
+} else{
+  x <- vapply(titanicDf[, c("Age", "Fare", "Survived")], mean, numeric(1))
+}
+x
+print(paste("The Mean Age of people onboard the Titanic = ", signif(x["Age"],4), sep=""))
+print(paste("The Mean Fare paid by people onboard the Titanic = ", signif(x["Fare"],4), sep=""))
+print(paste("The Mean Survival Rate of people onboard the Titanic = ", signif(x["Survived"],2), sep=""))
+```
+
+\     
+
+
+#### 3.	Function Building (30 points): You research sleep and just got your first data set.  Later, you'll have another dataset with the same column names, so you want to create a helper function that you can analyze this dataset and the next.  Load sleep_data_01.csv (found at http://talklab.psy.gla.ac.uk/L1_labs/lab_1/homework/index.html).  Questions 3A through 3D should be answered in function(x){}.  3E can be outside of the function.  
+
+\     
+
+```{r sleep_Data_Read}
+# Read the csv formatted data set
+sleepDataDf <- read.csv("sleep_data_01.csv", header = TRUE)
+str(sleepDataDf)
+```
+
+\   
+
+##### a.	Create objects for the median Age, the minimum and maximum Duration of sleep, and the mean and standard deviation of the Rosenberg Self Esteem scale (RSES).  You may need to specify a few options like in Problem 2 and live session. 
+
+##### b.	Create a data.frame object called report: it should consist of the median age, the RSES mean and standard deviation respectively divided by five (since there are five questions and these scores are summed), and the range of Duration (the statistical definition of range; it should be a single number.)
+
+##### c.	Change the column names of this data.frame to MedianAge, SelfEsteem, SE_SD, and DurationRange.
+
+##### d.	Round the report to at most 2 digits: leave this as the closing line to the function.
+
+\    
+```{r createReportFromDf_function}
+############################################################
+# Function Name: createReportFromDf
+# Description: Function to create a summary in known format
+#              from desired columns of a defined data frame.
+# Input: DataFrame or sub Data Frame from Sleep Data
+# Output: NULL, If Incorrect DataSet is passed
+#         A Summary Report Vector containing Median Age, 
+#         Average Self Esteem score,
+#         Avg Standard Dev of Self Esteem score and
+#         Range of Duration of Sleep
+#############################################################
+
+createReportFromDf <- function(inputDF){
+  
+  # Stop the Execution if incorrect Data Frame is passed.
+  if(!all(c("Age","Duration","RSES") %in% colnames(inputDF))){
+    print("Invalid Input ! Reqd Columns are Missing in Input Data Frame. Returning NULL !")
+    return()
+  }
+  # Part "a" for Ques 3.
+  medianAge <- median(inputDF$Age, na.rm = TRUE)
+  minDurationOfSleep <- min(inputDF$Duration, na.rm = TRUE)
+  maxDurationOfSleep <- max(inputDF$Duration, na.rm = TRUE)
+  meanRSES <- mean(inputDF$RSES, na.rm = TRUE)
+  sdRSES <- sd(inputDF$RSES, na.rm = TRUE)
+  
+  # Part "b" for Ques 3
+  report <- data.frame(medianAge, meanRSES/5, sdRSES/5, (maxDurationOfSleep - minDurationOfSleep))
+  # Part "c" for Ques 3
+  colnames(report) <- c("MedianAge", "SelfEsteem", "SE_SD", "DurationRange")
+  # Part "d" for Ques 3
+  sapply(report, signif, 2)
+}
+```
+\    
+
+##### e.	Finally, run the function on your sleep data to show the output.
+\    
+```{r calling_createReportFromDf_function}
+# Calling fn with correct DataSet
+createReportFromDf(sleepDataDf)
+
+# Only To Test: Calling fn with Incorrect DataSet, NULL would be returned
+createReportFromDf(titanicDf)
+```
