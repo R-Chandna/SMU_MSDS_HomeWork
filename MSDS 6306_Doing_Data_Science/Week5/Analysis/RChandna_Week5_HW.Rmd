@@ -134,7 +134,7 @@ print(paste("Are All Observations complete: ", as.character(all(complete.cases(f
 ```{r Analysis_On_Final_DF}
 final$Total <- final$GivenIn2015 + final$GivenIn2016
 final <- dplyr::arrange(final, desc(Total))
-head(final)
+print(paste("In the Two Years Combined, the number of people that were given popular names are: ", as.character(sum(final$Total)), sep=""))
 ```
 
 \     

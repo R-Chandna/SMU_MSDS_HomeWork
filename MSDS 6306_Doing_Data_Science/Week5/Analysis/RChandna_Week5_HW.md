@@ -293,17 +293,11 @@ print(paste("Are All Observations complete: ", as.character(all(complete.cases(f
 ```r
 final$Total <- final$GivenIn2015 + final$GivenIn2016
 final <- dplyr::arrange(final, desc(Total))
-head(final)
+print(paste("In the Two Years Combined, the number of people that were given popular names are: ", as.character(sum(final$Total)), sep=""))
 ```
 
 ```
-##     Name Gender GivenIn2015 GivenIn2016 Total
-## 1   Emma      F       20415       19414 39829
-## 2 Olivia      F       19638       19246 38884
-## 3   Noah      M       19594       19015 38609
-## 4   Liam      M       18330       18138 36468
-## 5 Sophia      F       17381       16070 33451
-## 6    Ava      F       16340       16237 32577
+## [1] "In the Two Years Combined, the number of people that were given popular names are: 7239231"
 ```
 
 \     
