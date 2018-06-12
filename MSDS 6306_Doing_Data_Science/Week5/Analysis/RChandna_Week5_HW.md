@@ -343,6 +343,19 @@ for(i in 1:10){
 ```r
 final_fem <- final[final$Gender == "F", ]
 final_fem <- dplyr::arrange(final_fem, desc(Total))
+str(final_fem)
+```
+
+```
+## 'data.frame':	15267 obs. of  5 variables:
+##  $ Name       : chr  "Emma" "Olivia" "Sophia" "Ava" ...
+##  $ Gender     : chr  "F" "F" "F" "F" ...
+##  $ GivenIn2015: int  20415 19638 17381 16340 15574 14871 11381 12371 11766 10283 ...
+##  $ GivenIn2016: int  19414 19246 16070 16237 14722 14366 13030 11699 10926 10733 ...
+##  $ Total      : int  39829 38884 33451 32577 30296 29237 24411 24070 22692 21016 ...
+```
+
+```r
 print("10 Most popular Girl's Names, in order are: ")
 ```
 

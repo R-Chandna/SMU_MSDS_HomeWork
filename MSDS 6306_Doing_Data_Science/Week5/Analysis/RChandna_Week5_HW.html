@@ -329,7 +329,14 @@ print(&quot;10 Most popularNames, in order are: &quot;)</code></pre>
 <p> </p>
 <pre class="r"><code>final_fem &lt;- final[final$Gender == &quot;F&quot;, ]
 final_fem &lt;- dplyr::arrange(final_fem, desc(Total))
-print(&quot;10 Most popular Girl's Names, in order are: &quot;)</code></pre>
+str(final_fem)</code></pre>
+<pre><code>## 'data.frame':    15267 obs. of  5 variables:
+##  $ Name       : chr  &quot;Emma&quot; &quot;Olivia&quot; &quot;Sophia&quot; &quot;Ava&quot; ...
+##  $ Gender     : chr  &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; ...
+##  $ GivenIn2015: int  20415 19638 17381 16340 15574 14871 11381 12371 11766 10283 ...
+##  $ GivenIn2016: int  19414 19246 16070 16237 14722 14366 13030 11699 10926 10733 ...
+##  $ Total      : int  39829 38884 33451 32577 30296 29237 24411 24070 22692 21016 ...</code></pre>
+<pre class="r"><code>print(&quot;10 Most popular Girl's Names, in order are: &quot;)</code></pre>
 <pre><code>## [1] &quot;10 Most popular Girl's Names, in order are: &quot;</code></pre>
 <pre class="r"><code>for(i in 1:10){
   print(paste(&quot;At No.&quot;, as.character(i), &quot;is&quot;, final_fem[i,&quot;Name&quot;], sep=&quot; &quot;))
